@@ -1,4 +1,4 @@
-﻿namespace RevitAddinBootcamp_TW1
+﻿namespace RevitAddinBootcamp_TW
 {
     [Transaction(TransactionMode.Manual)]
     public class cmdSkills04 : IExternalCommand

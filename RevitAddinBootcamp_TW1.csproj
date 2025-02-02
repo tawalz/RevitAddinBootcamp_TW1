@@ -71,13 +71,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Module01.png" />
-	  <None Remove="Resources\Module02.png" />
-	  <None Remove="Resources\Module03.png" />
-	  <None Remove="Resources\Module04.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <EmbeddedResource Include="Resources\Module01.png" />
 	  <EmbeddedResource Include="Resources\Module02.png" />
 	  <EmbeddedResource Include="Resources\Module03.png" />
