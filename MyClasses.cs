@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RevitAddinBootcamp_TW
+namespace RevitAddinBootcamp_TW1
 {
     // 4. create another class
     public class Neighborhood

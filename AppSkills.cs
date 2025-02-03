@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace RevitAddinBootcamp_TW
+namespace RevitAddinBootcamp_TW1
 {
     public class AppSkills : IExternalApplication
     {
@@ -47,13 +47,13 @@ namespace RevitAddinBootcamp_TW
                 "button1",
                 "Skill 01",
                 Assembly.GetExecutingAssembly().Location,
-                "RevitAddinBootcamp_TW.cmdSkills01");
+                "RevitAddinBootcamp_TW1.cmdSkills01");
 
             PushButtonData buttonData2 = new PushButtonData(
                "button2",
                "Button\rSkill 02", //by adding \r this breaks the sentence into two lines
                Assembly.GetExecutingAssembly().Location,
-               "RevitAddinBootcamp_TW.cmdSkills02");
+               "RevitAddinBootcamp_TW1.cmdSkills02");
 
             // 4. Add tooltips
             buttonData1.ToolTip = "This is what Command 1 does";

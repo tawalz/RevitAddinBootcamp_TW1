@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RevitAddinBootcamp_TW.Properties
+namespace RevitAddinBootcamp_TW1.Properties
 {
 
 

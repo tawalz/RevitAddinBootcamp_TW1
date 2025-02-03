@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RevitAddinBootcamp_TW.Properties {
+namespace RevitAddinBootcamp_TW1.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace RevitAddinBootcamp_TW.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RevitAddinBootcamp_TW.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("RevitAddinBootcamp_TW1.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -136,6 +136,46 @@ namespace RevitAddinBootcamp_TW.Properties {
         internal static byte[] Module04 {
             get {
                 object obj = ResourceManager.GetObject("Module04", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Red_16 {
+            get {
+                object obj = ResourceManager.GetObject("Red_16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Red_32 {
+            get {
+                object obj = ResourceManager.GetObject("Red_32", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Yellow_16 {
+            get {
+                object obj = ResourceManager.GetObject("Yellow_16", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Yellow_32 {
+            get {
+                object obj = ResourceManager.GetObject("Yellow_32", resourceCulture);
                 return ((byte[])(obj));
             }
         }

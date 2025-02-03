@@ -4,7 +4,7 @@ using Autodesk.Revit.DB.Plumbing;
 using System.Windows.Controls;
 using System.Xml.Linq;
 
-namespace RevitAddinBootcamp_TW
+namespace RevitAddinBootcamp_TW1
 {
     [Transaction(TransactionMode.Manual)]
     public class cmdSkills02 : IExternalCommand
