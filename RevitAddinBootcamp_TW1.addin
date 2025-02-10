@@ -43,4 +43,12 @@
 		<VendorId>Revit Add-in Bootcamp</VendorId>
 		<VendorDescription>Revit Add-in Bootcamp, https://academy.archsmarter.com</VendorDescription>
 	</AddIn>
+	<AddIn Type="Application">
+		<Name>Steel Deck Test</Name>
+		<Assembly>RevitAddinBootcamp_TW1\RevitAddinBootcamp_TW1.dll</Assembly>
+		<FullClassName>RevitAddinBootcamp_TW1.steel deck test</FullClassName>
+		<ClientId>49E021CE-F286-4CB7-A8AB-9A7E62B9F7CF</ClientId>
+		<VendorId>Revit Add-in Bootcamp</VendorId>
+		<VendorDescription>Revit Add-in Bootcamp, https://academy.archsmarter.com</VendorDescription>
+	</AddIn>
 </RevitAddIns>
