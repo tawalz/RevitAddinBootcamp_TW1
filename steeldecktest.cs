@@ -25,38 +25,46 @@ namespace RevitAddinBootcamp_TW1
             FilteredElementCollector flrColl = new FilteredElementCollector(doc);
             flrColl.OfCategory(BuiltInCategory.OST_FloorsStructure);
 
-            // 2. Loop through each floor
-            foreach (Floor floor in flrColl)
+
+            using (Transaction t = new Transaction(doc))
             {
+                t.Start("Decks in floors have been identified");
+
+                // 2. Loop through each floor
+                 foreach (Floor floor in flrColl)
+                 {
                                 
-                // 2. crEATE
-                FloorType flrType = floor.FloorType;
+                     // 3. Get Floor types and deck profile
+                        FloorType flrType = floor.FloorType;
 
-                CompoundStructure flrStruc = flrType.GetCompoundStructure();
-                List<CompoundStructureLayer>flrLayers = flrStruc.GetLayers().ToList();
+                        CompoundStructure flrStruc = flrType.GetCompoundStructure();
+                        List<CompoundStructureLayer>flrLayers = flrStruc.GetLayers().ToList();
 
 
-                foreach (CompoundStructureLayer layer in flrLayers)
-                {
-                    if (layer.DeckProfileId != null)
-                    { 
-                        FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
-                        string proName = deckPro.Name;
+                        foreach (CompoundStructureLayer layer in flrLayers)
+                        {
+                            if (layer.DeckProfileId != null)
+                            { 
+                                FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
+                                string proName = deckPro.Name;
 
-                        Parameter parameter = flrType.LookupParameter("Comments");
-                        //replace comments above with correct shared parameter name
+                                Parameter parameter = flrType.LookupParameter("Comments");
+                                //replace comments above with correct shared parameter name
 
-                        parameter.Set(proName);
-                    }
+                                parameter.Set(proName);
+                            }
                 
-                }
+                        }
 
         
 
 
+                 }
+
+
+                t.Commit();
             }
-
-
+           
             return Result.Succeeded;
         }
     }
