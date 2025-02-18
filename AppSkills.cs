@@ -29,7 +29,7 @@ namespace RevitAddinBootcamp_TW1
             // 2. Create panel
             string panelName1 = "Test Panel";
             string panelName2 = "Test Panel 2";
-            string panelName3 = "Test Panel 3";
+            //string panelName3 = "Test Panel 3";
 
             RibbonPanel panel = app.CreateRibbonPanel(tabName, panelName1); // these process puts it in the new tab we created
             RibbonPanel panel2 = app.CreateRibbonPanel(panelName2); // these process puts it in the revit add-in tab
