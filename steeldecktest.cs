@@ -28,7 +28,7 @@ namespace RevitAddinBootcamp_TW1
 
             using (Transaction t = new Transaction(doc))
             {
-                t.Start("Identify steel decksin floor types");
+                t.Start();
 
                 // 2. Loop through each floor
                  foreach (Floor floor in flrColl)
