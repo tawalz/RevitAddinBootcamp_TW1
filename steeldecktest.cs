@@ -23,45 +23,77 @@ namespace RevitAddinBootcamp_TW1
 
             // 1. Filter for all floor elements in the document
             FilteredElementCollector flrColl = new FilteredElementCollector(doc);
-            flrColl.OfCategory(BuiltInCategory.OST_FloorsStructure);
+            flrColl.OfClass(typeof(FloorType));
 
 
-            using (Transaction t = new Transaction(doc))
+            using (Transaction t = new Transaction(doc, "Identify Steel Deck Profiles"))
             {
                 t.Start();
 
+
                 // 2. Loop through each floor
-                 foreach (Floor floor in flrColl)
+                int counter = 0;
+                 foreach (FloorType flrType in flrColl)
                  {
                                 
                      // 3. Get Floor types and deck profile
-                        FloorType flrType = floor.FloorType;
-
+                        
+                    if (flrType != null)
+                    {
                         CompoundStructure flrStruc = flrType.GetCompoundStructure();
-                        List<CompoundStructureLayer>flrLayers = flrStruc.GetLayers().ToList();
-
-
-                        foreach (CompoundStructureLayer layer in flrLayers)
+                        if (flrStruc != null)
                         {
-                            if (layer.DeckProfileId != null)
-                            { 
-                                FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
-                                string proName = deckPro.Name;
+                            List<CompoundStructureLayer> flrLayers = flrStruc.GetLayers().ToList();
+                           
+                            if (flrLayers != null)
+                            {
+                                foreach (CompoundStructureLayer layer in flrLayers)
+                                {
+                                    if (layer.DeckProfileId != null)
+                                    { 
+                                        FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
+                                        if (deckPro != null)
+                                        {
+                                            string proName = deckPro.Name;
 
-                                Parameter parameter = flrType.LookupParameter("Comments");
-                                //replace comments above with correct shared parameter name
+                                            Parameter parameter = flrType.LookupParameter("Deck Type");
+                                            //replace comments above with correct shared parameter name
+                                            if (parameter != null)
+                                            {
+                                                parameter.Set(proName);
+                                                counter++;
 
-                                parameter.Set(proName);
-                            }
+                                            }
+                                        
+                                        }
+
+
+                                        
+                                    }
                 
+                                }
+
+
+                            }
+
+                        
                         }
 
-                        TaskDialog.Show("Steel Deck Identification", "Steel Deck Profiles have been identified in the floor types");
+
+                    }
+
+                        
+                        
 
 
 
 
-                }
+
+
+
+                 }
+
+                TaskDialog.Show("Steel Deck Identification", $"{counter} Steel Deck Profiles have been identified in the floor types");
 
 
                 t.Commit();
