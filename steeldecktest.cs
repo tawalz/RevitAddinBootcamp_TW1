@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using RevitAddinBootcamp_TW1.Common;
 
 
 namespace RevitAddinBootcamp_TW1
@@ -49,30 +50,49 @@ namespace RevitAddinBootcamp_TW1
                             {
                                 foreach (CompoundStructureLayer layer in flrLayers)
                                 {
-                                    if (layer.DeckProfileId != null)
-                                    { 
-                                        FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
-                                        if (deckPro != null)
+
+                                    FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
+                                    if (deckPro != null)
+                                    {
+                                        string proName = deckPro.Name;
+
+                                        Parameter parameter = flrType.LookupParameter("Deck Type");
+                                        //replace comments above with correct shared parameter name
+
+
                                         {
-                                            string proName = deckPro.Name;
+                                            parameter.Set(proName);
 
-                                            Parameter parameter = flrType.LookupParameter("Deck Type");
-                                            //replace comments above with correct shared parameter name
-                                            if (parameter != null)
-                                            {
-                                                parameter.Set(proName);
-                                                counter++;
 
-                                            }
-                                        
                                         }
 
 
-                                        
-                                    }
-                
-                                }
 
+                                        List<Parameter> deckTk = deckPro.GetParameters("hr").ToList();
+                                        if (deckTk != null)
+                                        {
+                                            foreach (Parameter param in deckTk)
+                                            {
+                                                double deckThick = param.AsDouble();
+                                                if (deckThick != 0)
+                                                {
+                                                    Parameter parameter2 = flrType.LookupParameter("Deck Height");
+                                                    {
+                                                        parameter2.Set(deckThick);
+                                                        counter++;
+                                                    }
+                                                }
+                                            }
+
+
+                                        }
+
+                                    }
+
+
+                                    
+
+                                }
 
                             }
 
