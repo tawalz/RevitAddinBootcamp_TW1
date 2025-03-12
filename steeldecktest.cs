@@ -34,22 +34,40 @@ namespace RevitAddinBootcamp_TW1
 
                 // 2. Loop through each floor
                 int counter = 0;
-                 foreach (FloorType flrType in flrColl)
+
+
+                               
+                
+                foreach (FloorType flrType in flrColl)
                  {
                                 
+
                      // 3. Get Floor types and deck profile
                         
                     if (flrType != null)
                     {
+
+                        
+
+
+
                         CompoundStructure flrStruc = flrType.GetCompoundStructure();
                         if (flrStruc != null)
                         {
+                            
                             List<CompoundStructureLayer> flrLayers = flrStruc.GetLayers().ToList();
-                           
+                            
+                            double slabTk = flrStruc.GetWidth();
+
+
+
                             if (flrLayers != null)
                             {
+                                
                                 foreach (CompoundStructureLayer layer in flrLayers)
                                 {
+                                    
+
 
                                     FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
                                     if (deckPro != null)
@@ -76,9 +94,17 @@ namespace RevitAddinBootcamp_TW1
                                                 double deckThick = param.AsDouble();
                                                 if (deckThick != 0)
                                                 {
-                                                    Parameter parameter2 = flrType.LookupParameter("Deck Height");
+                                                    double slabThick = slabTk - deckThick;
+
+                                                    Parameter parameter3 = flrType.LookupParameter("Deck Height");
                                                     {
-                                                        parameter2.Set(deckThick);
+                                                        parameter3.Set(deckThick);
+                                                    
+                                                    }
+                                                    
+                                                    Parameter parameter2 = flrType.LookupParameter("Floor Slab Thickness");
+                                                    {
+                                                        parameter2.Set(slabThick);
                                                         counter++;
                                                     }
                                                 }
