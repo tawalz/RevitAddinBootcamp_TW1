@@ -13,9 +13,9 @@ using RevitAddinBootcamp_TW1.Common;
 namespace RevitAddinBootcamp_TW1
 {
     [Transaction(TransactionMode.Manual)]
-    public class steeldecktest : IExternalCommand    
+    public class steeldecktest : IExternalCommand
     {
-        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)        
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             // Revit application and document variables
             UIApplication uiapp = commandData.Application;
@@ -36,42 +36,82 @@ namespace RevitAddinBootcamp_TW1
                 int counter = 0;
 
 
-                               
-                
-                foreach (FloorType flrType in flrColl)
-                 {
-                                
 
-                     // 3. Get Floor types and deck profile
-                        
+
+                foreach (FloorType flrType in flrColl)
+                {
+                    
+
+                    // 3. Get Floor types and deck profile
+
                     if (flrType != null)
                     {
 
+
+                        /* Get the material name and set it to matTyp
+                        List<Material> materialIds = flrType.GetMaterial().ToList();
+                        {
+                            foreach (Material mat in materialIds)
+                            {
+                                string matTyp = mat.Name;
+                            
+                            }
                         
+                        
+                        }
+                        */
+
+
+
+                        // Get the structural material ID
+                        ElementId structuralMaterialId = flrType.StructuralMaterialId;
+                        
+                        Material structuralMaterial = doc.GetElement(structuralMaterialId) as Material;
+                            
+                        string matTyp = structuralMaterial.Name; 
+                            
+                        Parameter parameter4 = flrType.LookupParameter("Model");
+                        
+                        parameter4.Set(matTyp);
+
+
+                        
+                            
+
+
+
+
 
 
 
                         CompoundStructure flrStruc = flrType.GetCompoundStructure();
                         if (flrStruc != null)
                         {
-                            
+
                             List<CompoundStructureLayer> flrLayers = flrStruc.GetLayers().ToList();
-                            
+
                             double slabTk = flrStruc.GetWidth();
+
+                            
+                            
 
 
 
                             if (flrLayers != null)
                             {
-                                
+
                                 foreach (CompoundStructureLayer layer in flrLayers)
                                 {
-                                    
+
+
+
 
 
                                     FamilySymbol deckPro = doc.GetElement(layer.DeckProfileId) as FamilySymbol;
                                     if (deckPro != null)
                                     {
+
+
                                         string proName = deckPro.Name;
 
                                         Parameter parameter = flrType.LookupParameter("Deck Type");
@@ -97,16 +137,30 @@ namespace RevitAddinBootcamp_TW1
                                                     double slabThick = slabTk - deckThick;
 
                                                     Parameter parameter3 = flrType.LookupParameter("Deck Height");
-                                                    {
-                                                        parameter3.Set(deckThick);
                                                     
-                                                    }
-                                                    
+                                                    parameter3.Set(deckThick);
+
                                                     Parameter parameter2 = flrType.LookupParameter("Floor Slab Thickness");
+                                                    
+                                                    parameter2.Set(slabThick);
+
+
+                                                    // Replace the line where slabInches is set with the following:
+                                                    string slabInchesFraction = ConvertToFractionalInches(slabThick * 12);
+                                                    
+                                                    
+
+                                                    if (slabThick > 0)
                                                     {
-                                                        parameter2.Set(slabThick);
-                                                        counter++;
+                                                        Parameter parameter1 = flrType.LookupParameter("Floor Slab Thick and Material");
+                                                        parameter1.Set(slabInchesFraction + " " + matTyp);
+
                                                     }
+
+                                                    counter++;
+                                                    
+
+
                                                 }
                                             }
 
@@ -116,20 +170,18 @@ namespace RevitAddinBootcamp_TW1
                                     }
 
 
-                                    
+
 
                                 }
 
                             }
 
-                        
+
                         }
 
 
                     }
 
-                        
-                        
 
 
 
@@ -137,15 +189,51 @@ namespace RevitAddinBootcamp_TW1
 
 
 
-                 }
+
+
+                }
 
                 TaskDialog.Show("Steel Deck Identification", $"{counter} Steel Deck Profiles have been identified in the floor types");
 
 
                 t.Commit();
             }
-           
+
             return Result.Succeeded;
+        }
+        public static string ConvertToFractionalInches(double decimalInches)
+        {
+            int wholeNumber = (int)decimalInches;
+            double fractionalPart = decimalInches - wholeNumber;
+
+            int numerator = (int)(fractionalPart * 64);
+            int gcd = GCD(numerator, 64);
+            numerator /= gcd;
+            int denominator = 64 / gcd;
+
+            if (numerator == 0)
+            {
+                return $"{wholeNumber}\"";
+            }
+            else if (wholeNumber == 0)
+            {
+                return $"{numerator}/{denominator}\"";
+            }
+            else
+            {
+                return $"{wholeNumber} {numerator}/{denominator}\"";
+            }
+        }
+
+        private static int GCD(int a, int b)
+        {
+            while (b != 0)
+            {
+                int temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
         }
     }
 }
